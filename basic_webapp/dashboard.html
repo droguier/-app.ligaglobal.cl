@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Sistema de Gestión</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        /* Estilos adicionales para el dashboard */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .card p {
+            color: #666;
+        }
+        
+        .admin-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            display: none; /* Oculto por defecto */
+        }
+        
+        .admin-section.visible {
+            display: block;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #a71d2a 100%);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .welcome-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        /* Estilos para funcionalidad de expansión sin jQuery */
+        .expandable-section {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .expandable-header {
+            padding: 15px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .expandable-content {
+            padding: 15px;
+            display: none;
+        }
+        
+        .expandable-content.visible {
+            display: block;
+        }
+        
+        .expandable-header::after {
+            content: '▼';
+            transition: transform 0.3s;
+        }
+        
+        .expandable-header.expanded::after {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Panel de Control</h1>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div>
+                    <div id="userName">Usuario</div>
+                    <div id="userRole">Rol: Usuario</div>
+                </div>
+                <button class="btn btn-danger" id="logoutBtn">Cerrar Sesión</button>
+            </div>
+        </div>
+        
+        <div class="welcome-message" id="welcomeMessage">
+            Bienvenido al sistema de gestión. Aquí podrás realizar tus tareas diarias.
+        </div>
+        
+        <!-- Sección expandible de ejemplo -->
+        <div class="expandable-section">
+            <div class="expandable-header" id="section1Header">
+                <h3>Tareas Principales</h3>
+                <span>▼</span>
+            </div>
+            <div class="expandable-content" id="section1Content">
+                <p>Accede a tus tareas diarias y actividades asignadas.</p>
+                <button class="btn">Ver Tareas</button>
+            </div>
+        </div>
+        
+        <div class="expandable-section">
+            <div class="expandable-header" id="section2Header">
+                <h3>Reportes</h3>
+                <span>▼</span>
+            </div>
+            <div class="expandable-content" id="section2Content">
+                <p>Consulta los reportes y estadísticas del sistema.</p>
+                <button class="btn">Ver Reportes</button>
+            </div>
+        </div>
+        
+        <div class="expandable-section">
+            <div class="expandable-header" id="section3Header">
+                <h3>Notificaciones</h3>
+                <span>▼</span>
+            </div>
+            <div class="expandable-content" id="section3Content">
+                <p>Revisa las notificaciones y avisos importantes.</p>
+                <button class="btn">Ver Notificaciones</button>
+            </div>
+        </div>
+        
+        <div class="admin-section" id="adminSection">
+            <h2>Funciones de Administrador</h2>
+            <p>Como administrador, tienes acceso a funciones adicionales:</p>
+            
+            <div class="action-buttons">
+                <button class="btn">Gestionar Usuarios</button>
+                <button class="btn">Configurar Sistema</button>
+                <button class="btn">Ver Logs</button>
+                <button class="btn btn-secondary">Generar Reportes</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Incluir el script de autenticación -->
+    <script src="assets/js/auth.js"></script>
+    <script>
+        // Verificar autenticación al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar autenticación y cargar información del usuario
+            checkAuthAndLoadDashboard();
+            
+            // Configurar el botón de cierre de sesión
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    logout();
+                });
+            }
+            
+            // Configurar funcionalidad de expansión sin jQuery
+            const expandableHeaders = document.querySelectorAll('.expandable-header');
+            expandableHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    content.classList.toggle('visible');
+                    this.classList.toggle('expanded');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
