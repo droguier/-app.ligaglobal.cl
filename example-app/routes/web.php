@@ -1,19 +1,27 @@
+
 <?php
 
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\QrController;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\ZbarController;
 use App\Http\Controllers\KhanamiryanController;
 use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\EventoController;
+use App\Http\Controllers\EventoSubEventoController;
+use App\Http\Controllers\EventoParticipanteController;
+use App\Http\Controllers\EventoObservacionController;
+use App\Http\Controllers\AdministradorController;
+use App\Http\Controllers\EventoRegistrarParticipanteController;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 // =================== HOME ===================
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 Route::get('/about', function () {
     return view('about');
 })->name('about');
@@ -26,7 +34,7 @@ Route::get('/usuarios', function () {
     // Puedes acceder a $user->name, $user->email, etc.
     // Ejemplo: mostrar en la vista
     return view('usuarios.index', compact('users', 'user'));
-})->middleware('auth')->name('usuarios.index');
+})/*->middleware('auth')*/->name('usuarios.index');
 
 // Formulario de creación de usuario
 Route::get('/usuarios/crear', function () {
@@ -46,7 +54,7 @@ Route::post('/usuarios', function (Request $request) {
         'password' => bcrypt($validated['password']),
     ]);
     return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
-})->middleware('auth')->name('usuarios.store');
+})/*->middleware('auth')*/->name('usuarios.store');
 
 // =================== QR ===================
 // QR con khanamiryan
@@ -84,3 +92,13 @@ Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCa
 Route::get('/login', function () {
     return redirect()->route('login.google.view');
 })->name('login');
+
+// =================== MANTENEDORES EVENTOS ===================
+    Route::resource('eventos', EventoController::class);
+    Route::resource('evento-sub-eventos', EventoSubEventoController::class);
+    Route::resource('evento-participantes', EventoParticipanteController::class);
+    Route::resource('evento-observaciones', EventoObservacionController::class);
+    Route::resource('administradores', AdministradorController::class);
+    Route::post('/eventos/{evento}/registrar-participante', [App\Http\Controllers\EventoRegistrarParticipanteController::class, 'store'])->name('eventos.registrarParticipante');
+
+

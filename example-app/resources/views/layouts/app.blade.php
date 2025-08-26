@@ -12,10 +12,14 @@
             <a class="navbar-brand" href="/">Inicio</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/camara">Cámara</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/qr/upload">QR Backend</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('usuarios.index') }}">Usuarios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('eventos.index') }}">Eventos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('evento-sub-eventos.index') }}">Sub-Eventos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('evento-participantes.index') }}">Participantes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('administradores.index') }}">Administradores</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('camara') }}">Cámara</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('qr.upload') }}">QR Backend</a></li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     @auth

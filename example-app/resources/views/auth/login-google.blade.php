@@ -24,3 +24,11 @@
     </div>
 </div>
 @endsection
+
+<!-- Botón de inicio de sesión con Google
+<div id="g_id_onload"
+data-client_id="407435070764-eh72qg5h8beqo3soifru2uheepqhh2hi.apps.googleusercontent.com"
+data-callback="handleCredentialResponse"
+data-auto_prompt="false">
+</div>
+-->
