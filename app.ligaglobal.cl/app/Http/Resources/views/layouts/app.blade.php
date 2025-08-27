@@ -16,6 +16,9 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="menuDropdown">
                 <li><a class="dropdown-item" href="{{ route('eventos.index') }}">Eventos</a></li>
+                <li><a class="dropdown-item" href="{{ route('sub-eventos.index') }}">Sub-Eventos</a></li>
+                <li><a class="dropdown-item" href="{{ route('participantes.index') }}">Participantes</a></li>
+                <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
                 <li><a class="dropdown-item" href="{{ route('home') }}">Home</a></li>
                 <li><a class="dropdown-item" href="/">Index</a></li>
                 <!-- Agrega más enlaces a módulos aquí -->

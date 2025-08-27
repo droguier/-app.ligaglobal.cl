@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Controllers\Controller;
+use App\Models\Evento;
 use Illuminate\Http\Request;
 
 class EventoController extends Controller
@@ -55,11 +57,19 @@ class EventoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      */
-    public function show(string $id)
+    public function edit(string $id)
     {
-        // ...existing code...
+        $evento = \App\Models\Evento::findOrFail($id);
+        return view('LigaGlobal::eventos.edit', compact('evento'));
     }
-    // ...existing code...
+
+    public function destroy(Evento $evento)
+    {
+        $evento->activo = 0;
+        $evento->updated_at = now();
+        $evento->save();
+        return redirect()->route('eventos.index')->with('success', 'Evento desactivado correctamente.');
+    }
 }

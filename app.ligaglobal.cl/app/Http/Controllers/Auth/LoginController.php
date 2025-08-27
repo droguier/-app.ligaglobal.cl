@@ -9,6 +9,6 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('auth.Login.index');
+        return view('LigaGlobal::auth.Login.index');
     }
 }
