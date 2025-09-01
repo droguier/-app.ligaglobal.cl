@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'App') }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -15,16 +15,35 @@
                 Menú
             </button>
             <ul class="dropdown-menu" aria-labelledby="menuDropdown">
-                <li><a class="dropdown-item" href="{{ route('eventos.index') }}">Eventos</a></li>
-                <li><a class="dropdown-item" href="{{ route('sub-eventos.index') }}">Sub-Eventos</a></li>
-                <li><a class="dropdown-item" href="{{ route('participantes.index') }}">Participantes</a></li>
-                <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
+                @auth
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">Eventos</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('eventos.index') }}">Buscar Evento</a></li>
+                            <li><a class="dropdown-item" href="{{ route('eventos.create') }}">Crear Evento</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">Sub-Eventos</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('sub-eventos.index') }}">Buscar Sub-Eventos</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">Reportes</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('participantes.index') }}">Participantes</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
+                @endauth
                 <li><a class="dropdown-item" href="{{ route('home') }}">Home</a></li>
                 <li><a class="dropdown-item" href="/">Index</a></li>
                 <!-- Agrega más enlaces a módulos aquí -->
             </ul>
         </div>
-        <a class="navbar-brand ms-3" href="/">{{ config('app.name', 'App') }}</a>
+        <a class="navbar-brand ms-3" href="{{ route('home') }}">{{ config('app.name', 'App') }}</a>
         <div class="ms-auto">
             <!-- Login/Usuario a la derecha -->
             @guest
@@ -57,6 +76,17 @@
 <div class="container">
     @yield('content')
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+    document.querySelectorAll('.dropdown-submenu .dropdown-toggle').forEach(function(element) {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let submenu = this.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('show');
+            }
+        });
+    });
+</script>
 </html>

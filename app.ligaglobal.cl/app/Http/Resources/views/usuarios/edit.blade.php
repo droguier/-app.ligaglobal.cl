@@ -13,6 +13,10 @@
                     <input type="text" name="name" id="name" class="form-control" value="{{ $usuario->name }}" required>
                 </div>
                 <div class="mb-3">
+                    <label for="lastname" class="form-label">Apellido</label>
+                    <input type="text" name="lastname" id="lastname" class="form-control" value="{{ $usuario->lastname }}" required maxlength="255">
+                </div>
+                <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" name="email" id="email" class="form-control" value="{{ $usuario->email }}" required>
                 </div>

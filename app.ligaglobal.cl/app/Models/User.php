@@ -18,11 +18,15 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'google2fa_secret',
-        'rut',
+    'name',
+    'lastname',
+    'email',
+    'password',
+    'google2fa_secret',
+    'rut',
+    'google_id',
+    'avatar',
+    'is_admin'
     ];
 
     /**
@@ -35,9 +39,15 @@ class User extends Authenticatable
     'remember_token',
     'google2fa_secret',
     ];
-
     /**
      * Get the attributes that should be cast.
+     */
+    public function getIsAdminAttribute()
+    {
+        $admin = Administrador::where('user_id', $this->id)->where('activo', true)->first();
+        return $admin !== null;
+    }
+    /*
      *
      * @return array<string, string>
      */

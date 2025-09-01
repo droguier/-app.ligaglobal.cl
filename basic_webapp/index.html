@@ -21,12 +21,13 @@
                 <div id="message" class="message hidden"></div>
                 
                 <!-- Botón de inicio de sesión con Google -->
+                <!-- Google Login para entorno DEV (app.ligaglobal.cl) -->
                 <div id="g_id_onload"
                     data-client_id="407435070764-eh72qg5h8beqo3soifru2uheepqhh2hi.apps.googleusercontent.com"
                     data-callback="handleCredentialResponse"
-                    data-auto_prompt="false">
+                    data-auto_prompt="false"
+                    data-login_uri="http://app.ligaglobal.cl/auth/google/callback">
                 </div>
-                
                 <div class="g_id_signin"
                      data-type="standard"
                      data-size="large"
@@ -35,6 +36,7 @@
                      data-shape="rectangular"
                      data-logo_alignment="left">
                 </div>
+                <!-- Fin Google Login DEV -->
                 
                 <!-- Separador -->
                 <div class="separator">

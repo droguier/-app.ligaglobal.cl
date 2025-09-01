@@ -9,25 +9,29 @@
             <select name="evento_id" class="form-select">
                 <option value="">-- Evento --</option>
                 @foreach($eventos as $evento)
-                    <option value="{{ $evento->id }}" @if(request('evento_id') == $evento->id) selected @endif>{{ $evento->nombre }}</option>
+                    <option value="{{ $evento->id }}" @if(($filtros['evento_id'] ?? '') == $evento->id) selected @endif>{{ $evento->nombre }}</option>
                 @endforeach
             </select>
         </div>
         <div class="col-md-3">
-            <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ request('nombre') }}">
+            <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ $filtros['nombre'] ?? '' }}">
         </div>
         <div class="col-md-3">
-            <input type="date" name="fecha_evento" class="form-control" value="{{ request('fecha_evento') }}">
+            <input type="date" name="fecha_evento_desde" class="form-control" value="{{ $filtros['fecha_evento_desde'] ?? '' }}" placeholder="Desde">
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="fecha_evento_hasta" class="form-control" value="{{ $filtros['fecha_evento_hasta'] ?? '' }}" placeholder="Hasta">
         </div>
         <div class="col-md-2">
             <select name="activo" class="form-select">
-                <option value="" @if(!request()->has('activo')) selected @endif>-- Estado --</option>
-                <option value="1" @if((request()->has('activo') && request('activo')==='1') || !request()->has('activo')) selected @endif>Activo</option>
-                <option value="0" @if(request('activo')==='0') selected @endif>No Activo</option>
+                <option value="" @if(!isset($filtros['activo']) || $filtros['activo'] === null || $filtros['activo'] === '') selected @endif>-- Estado --</option>
+                <option value="1" @if(isset($filtros['activo']) && $filtros['activo'] === '1') selected @endif>Activo</option>
+                <option value="0" @if(isset($filtros['activo']) && $filtros['activo'] === '0') selected @endif>No Activo</option>
             </select>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1 d-flex gap-2">
             <button type="submit" class="btn btn-secondary w-100">Filtrar</button>
+            <a href="{{ route('sub-eventos.index') }}" class="btn btn-outline-secondary w-100">Limpiar</a>
         </div>
     </form>
     @if(session('success'))
@@ -59,7 +63,7 @@
                         <form action="{{ route('sub-eventos.destroy', $subevento) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de desactivar?')">Desactivar</button>
                         </form>
                     </td>
                 </tr>

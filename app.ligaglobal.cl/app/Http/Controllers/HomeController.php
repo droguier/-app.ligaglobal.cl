@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('LigaGlobal::Home.index');
+        $pageTitle = 'Home | Liga Global';
+        return view('LigaGlobal::Home.index', compact('pageTitle'));
     }
 }

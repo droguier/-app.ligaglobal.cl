@@ -8,9 +8,16 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
+        './app/Http/Resources/**/*.blade.php',
+        './app/Http/Resources/**/*.js',
+        './app/Http/Resources/**/*.vue',
     ],
     theme: {
         extend: {
+            colors: {
+                'pastel-rosa': '#FFE4EC',
+                // ...otros colores
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },

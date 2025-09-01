@@ -10,6 +10,7 @@
                 <th>ID</th>
                 <th>RUT</th>
                 <th>Nombre</th>
+                <th>Apellido</th>
                 <th>Email</th>
                 <th>Acciones</th>
             </tr>
@@ -20,13 +21,14 @@
                     <td>{{ $usuario->id }}</td>
                     <td>{{ $usuario->rut ?? '-' }}</td>
                     <td>{{ $usuario->name }}</td>
+                    <td>{{ $usuario->lastname ?? '-' }}</td>
                     <td>{{ $usuario->email }}</td>
                     <td>
                         <a href="{{ route('usuarios.edit', $usuario) }}" class="btn btn-sm btn-warning">Editar</a>
                         <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de desactivar?')">Desactivar</button>
                         </form>
                     </td>
                 </tr>

@@ -8,32 +8,38 @@
         <div class="col-md-2">
             <select name="evento_id" class="form-select">
                 <option value="">-- Evento --</option>
-                @foreach($eventos as $evento)
-                    <option value="{{ $evento->id }}" @if(request('evento_id') == $evento->id) selected @endif>{{ $evento->nombre }}</option>
-                @endforeach
+                @if(!empty($eventos))
+                    @foreach($eventos as $evento)
+                        <option value="{{ $evento->id }}" @if(isset($filtros['evento_id']) && $filtros['evento_id'] == $evento->id) selected @endif>{{ $evento->nombre }}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
         <div class="col-md-2">
             <select name="sub_evento_id" class="form-select">
                 <option value="">-- Sub-Evento --</option>
-                @foreach($subeventos as $subevento)
-                    <option value="{{ $subevento->id }}" @if(request('sub_evento_id') == $subevento->id) selected @endif>{{ $subevento->nombre }}</option>
-                @endforeach
+                @if(!empty($subeventos))
+                    @foreach($subeventos as $subevento)
+                        <option value="{{ $subevento->id }}" @if(isset($filtros['sub_evento_id']) && $filtros['sub_evento_id'] == $subevento->id) selected @endif>{{ $subevento->nombre }}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
         <div class="col-md-2">
             <select name="user_id" class="form-select">
                 <option value="">-- Usuario --</option>
-                @foreach($usuarios as $usuario)
-                    <option value="{{ $usuario->id }}" @if(request('user_id') == $usuario->id) selected @endif>{{ $usuario->rut ? strtoupper($usuario->rut) . ' - ' . $usuario->name : $usuario->name }}</option>
-                @endforeach
+                @if(!empty($usuarios))
+                    @foreach($usuarios as $usuario)
+                        <option value="{{ $usuario->id }}" @if(isset($filtros['user_id']) && $filtros['user_id'] == $usuario->id) selected @endif>{{ $usuario->rut ? strtoupper($usuario->rut) . ' - ' . $usuario->name : $usuario->name }}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
         <div class="col-md-2">
             <select name="activo" class="form-select">
-                <option value="" @if(!request()->has('activo')) selected @endif>-- Estado --</option>
-                <option value="1" @if((request()->has('activo') && request('activo')==='1') || !request()->has('activo')) selected @endif>Activo</option>
-                <option value="0" @if(request('activo')==='0') selected @endif>No Activo</option>
+                <option value="" @if(!isset($filtros['activo'])) selected @endif>-- Estado --</option>
+                <option value="1" @if(isset($filtros['activo']) && $filtros['activo'] === '1') selected @endif>Activo</option>
+                <option value="0" @if(isset($filtros['activo']) && $filtros['activo'] === '0') selected @endif>No Activo</option>
             </select>
         </div>
         <div class="col-md-2">
@@ -52,6 +58,7 @@
                 <th>Usuario</th>
                 <th>Descripción</th>
                 <th>Activo</th>
+                <th>Fecha registro</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -64,13 +71,9 @@
                     <td>{{ $participante->usuario->name ?? '-' }}</td>
                     <td>{{ $participante->descripcion }}</td>
                     <td>{{ $participante->activo ? 'Sí' : 'No' }}</td>
+                    <td>{{ $participante->created_at ? $participante->created_at->format('d/m/Y H:i') : '' }}</td>
                     <td>
-                        <a href="{{ route('participantes.edit', $participante) }}" class="btn btn-sm btn-warning">Editar</a>
-                        <form action="{{ route('participantes.destroy', $participante) }}" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
-                        </form>
+                        <a href="{{ route('participantes.edit', $participante->id) }}" class="btn btn-sm btn-warning">Editar</a>                        
                     </td>
                 </tr>
             @empty

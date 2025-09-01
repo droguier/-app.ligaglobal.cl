@@ -14,23 +14,40 @@ class EventoController extends Controller
      */
     public function index()
     {
+        $filtros = [
+            'nombre' => request('nombre'),
+            'fecha_evento_desde' => request('fecha_evento_desde'),
+            'fecha_evento_hasta' => request('fecha_evento_hasta'),
+            'activo' => request('activo')
+        ];
+
+        if (empty(request()->all())) 
+        {
+            $filtros['activo'] = "1";
+            $filtros['fecha_evento_desde'] = \Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        }
+
         $query = \App\Models\Evento::query();
-        if (request('nombre')) {
-            $query->where('nombre', 'like', '%' . request('nombre') . '%');
+        if ($filtros['nombre']) {
+            $query->where('nombre', 'like', '%' . $filtros['nombre'] . '%');
         }
-        if (request('fecha_evento')) {
-            $query->whereDate('fecha_evento', request('fecha_evento'));
+
+        if ($filtros['fecha_evento_desde']) {
+            $query->whereDate('fecha_evento', '>=', $filtros['fecha_evento_desde']);
         }
-        // Por defecto solo mostrar activos, salvo que se filtre explicitamente
-        if (request()->has('activo')) {
-            if (request('activo') !== '') {
-                $query->where('activo', request('activo'));
-            }
-        } else {
-            $query->where('activo', 1);
+        if ($filtros['fecha_evento_hasta']) {
+            $query->whereDate('fecha_evento', '<=', $filtros['fecha_evento_hasta']);
         }
+
+        // Filtrar por activo solo si se selecciona una opción
+        if ($filtros['activo']) {
+            $query->where('activo', $filtros['activo']);
+        }
+
         $eventos = $query->orderBy('fecha_evento', 'desc')->get();
-        return view('LigaGlobal::eventos.index', compact('eventos'));
+
+        $pageTitle = 'Eventos | Liga Global';
+        return view('LigaGlobal::eventos.index', compact('eventos', 'pageTitle', 'filtros'));
     }
 
     /**
@@ -38,7 +55,8 @@ class EventoController extends Controller
      */
     public function create()
     {
-        return view('LigaGlobal::eventos.create');
+        $pageTitle = 'Crear Evento | Liga Global';
+        return view('LigaGlobal::eventos.create', compact('pageTitle'));
     }
 
     /**
@@ -62,9 +80,27 @@ class EventoController extends Controller
     public function edit(string $id)
     {
         $evento = \App\Models\Evento::findOrFail($id);
-        return view('LigaGlobal::eventos.edit', compact('evento'));
+        
+        $pageTitle = 'Editar Evento | Liga Global';
+        return view('LigaGlobal::eventos.edit', compact('evento', 'pageTitle'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'fecha_evento' => 'required|date',
+            'activo' => 'required|boolean',
+        ]);
+        $evento = \App\Models\Evento::findOrFail($id);
+        $evento->update($validated);
+        return redirect()->route('eventos.index')->with('success', 'Evento actualizado correctamente.');
+    }
+    
     public function destroy(Evento $evento)
     {
         $evento->activo = 0;

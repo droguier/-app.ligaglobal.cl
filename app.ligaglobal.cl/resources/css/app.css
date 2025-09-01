@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind elements;
+
+
+/* Paleta de colores utilizada en la aplicación */
+:root {
+	--color-pastel-rosa: #FFE4EC;
+	--color-rojo-ligaglobal: #FF2D20;
+	--color-rojo-hover: #FF2D20CC;
+	--color-blanco: #FFFFFF;
+	--color-negro: #000000;
+	--color-texto: #FF2D20;
+    /**/
+    --color-fondo: #F8F9FA;
+
+}
