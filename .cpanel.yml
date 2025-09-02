@@ -3,9 +3,3 @@ deployment:
   tasks:
     - export DEPLOYPATH="/home4/eduar109/app.ligaglobal.cl"
     - /bin/rsync -a --exclude 'index.php' public/ $DEPLOYPATH
-    - cd $DEPLOYPATH
-    - /usr/local/bin/composer install --no-dev --optimize-autoloader
-    - /usr/local/bin/php artisan migrate --force
-    - /usr/local/bin/php artisan cache:clear
-    - /usr/local/bin/php artisan config:clear
-    - /usr/local/bin/php artisan view:clear
