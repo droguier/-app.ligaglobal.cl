@@ -1,5 +1,13 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH="/home4/eduar109/app.ligaglobal.cl"
+    - export REPOSITORY="/home4/eduar109/arepositories/git_app_ligaglobal_cl/"
+    - export DEPLOYPATH="/home4/eduar109/app.ligaglobal.cl/"
+    - cd app.ligaglobal.cl
     - /bin/rsync -a --exclude 'index.php' public/ $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - php artisan migrate --force
+    - php artisan config:cache
+    - php artisan route:cache
+    - php artisan view:cache
+    

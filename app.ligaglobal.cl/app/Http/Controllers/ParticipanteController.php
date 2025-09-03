@@ -124,15 +124,12 @@ class ParticipanteController extends Controller
             ->orderBy('nombre')
             ->get(['id', 'nombre']);
             
-        if ($subeventos->isEmpty()) {
-            $subeventos = null;
-        }
         $usuarios = User::orderBy('name')->get();
         $pageTitle = 'Registrar Participante -  | Liga Global';
 
         Log::info('inscribir_modal user info: ' . json_encode($evento));
 
-        return view('LigaGlobal::participantes.inscribirparticipante', compact('evento', 'subeventos', 'usuarios', 'pageTitle'));
+        return view('LigaGlobal::participantes.inscribir', compact('evento', 'subeventos', 'usuarios', 'pageTitle'));
     }
 
     public function inscribir_guardar(Request $request)

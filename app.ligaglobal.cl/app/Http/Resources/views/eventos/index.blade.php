@@ -62,7 +62,7 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de desactivar?')">Desactivar</button>
                         </form>
-                        <a href="{{ route('inscribirparticipante', $evento->id) }}" class="btn btn-sm btn-info">Registrar Participante</a>
+                        <a href="{{ route('participantes.inscribir', $evento->id) }}" class="btn btn-sm btn-info">Registrar Participante</a>
                     </td>
                 </tr>
             @empty

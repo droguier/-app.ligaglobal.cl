@@ -20,30 +20,27 @@ Route::get('/', function () {
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::prefix('eventos')->group(function () {
-        Route::resource('', EventoController::class)->names('eventos');
-        Route::get('{evento}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
-        Route::delete('{evento}', [EventoController::class, 'destroy'])->name('eventos.destroy');
-        Route::put('{evento}', [EventoController::class, 'update'])->name('eventos.update');
-        // Endpoint para AJAX: obtener subeventos por evento
-        Route::get('{evento}/subeventos', [SubEventoController::class, 'getByEvento'])
-            ->name('eventos.subeventos');
-    });
-
-    Route::resource('/sub-eventos', SubEventoController::class)->names('sub-eventos');
+    //eventos
+    Route::resource('eventos', EventoController::class);
+    //Route::resource('eventos', EventoController::class)->names('eventos.index');
+    //Route::get('eventos/{evento}/edit', [EventoController::class, 'edit'])->name('eventos.edit');
+    //Route::delete('eventos/{evento}', [EventoController::class, 'destroy'])->name('eventos.destroy');
+    //Route::put('eventos/{evento}', [EventoController::class, 'update'])->name('eventos.update');
+    // Endpoint para AJAX: obtener subeventos por evento
+    Route::get('eventos/{evento}/subeventos', [SubEventoController::class, 'getByEvento'])->name('eventos.subeventos');
     
-    Route::prefix('participantes')->group(function () {
-        Route::resource('', ParticipanteController::class)->names('participantes');
-        Route::get('{participante}/edit', [ParticipanteController::class, 'edit'])->name('participantes.edit');
-        Route::put('{participante}', [ParticipanteController::class, 'update'])->name('participantes.update');
-        Route::get('/create-by-event/{evento}/evento', [ParticipanteController::class, 'inscribir_modal'])->name('inscribirparticipante');
-        Route::post('/store-by-event', [ParticipanteController::class, 'inscribir_guardar'])->name('participantes.inscribir-guardar');
-    });
+    //subeventos
+    Route::resource('/sub-eventos', SubEventoController::class)->names('sub-eventos');
+    //participantes
+    Route::resource('participantes', ParticipanteController::class);
+    //Route::resource('participantes', ParticipanteController::class)->names('participantes.index');
+    //Route::resource('participantes', ParticipanteController::class)->names('participantes.index');
+    //Route::get('participantes/{participante}/edit', [ParticipanteController::class, 'edit'])->name('participantes.edit');
+    //Route::put('participantes/{participante}', [ParticipanteController::class, 'update'])->name('participantes.update');
+    Route::get('participantes/create-by-event/{evento}/evento', [ParticipanteController::class, 'inscribir_modal'])->name('participantes.inscribir');
+    Route::post('participantes/store-by-event', [ParticipanteController::class, 'inscribir_guardar'])->name('participantes.guardar');
 
-    //Route::middleware(['is_admin'])->group(function () {
-        Route::resource('/usuarios', App\Http\Controllers\UsuarioController::class)->names('usuarios');
-    //});
-    //Route::resource('/usuarios', App\Http\Controllers\UsuarioController::class)->names('usuarios');
+    Route::resource('/usuarios', App\Http\Controllers\UsuarioController::class)->names('usuarios');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
