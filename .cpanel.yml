@@ -4,6 +4,10 @@ deployment:
   tasks:
     - export REPOSITORY="/home4/eduar109/repositories/git_app_ligaglobal_cl/app.ligaglobal.cl/"
     - export DEPLOYPATH="/home4/eduar109/app.ligaglobal.cl/"
-    - cd $REPOSITORY
-    - /bin/rsync -a --exclude 'index.php' --exclude '.env' --exclude '.env.example' --exclude '.htaccess' --exclude 'node_modules/' . $DEPLOYPATH
-    
+    - rsync -av --exclude='.git' $REPOSITORY/app $DEPLOYPATH/app
+    - rsync -av --exclude='.git' $REPOSITORY/routes $DEPLOYPATH/routes
+    - rsync -av --exclude='.git' $REPOSITORY/resources $DEPLOYPATH/resources  
+    - cd $DEPLOYPATH
+    - composer install --no-dev --optimize-autoloader
+    - npm install
+    - npm run build

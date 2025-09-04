@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::middleware('auth')->group(function () {
+//Route::middleware('auth')->group(function () {
     //eventos
     Route::resource('eventos', EventoController::class);
     //Route::resource('eventos', EventoController::class)->names('eventos.index');
@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::post('participantes/store-by-event', [ParticipanteController::class, 'inscribir_guardar'])->name('participantes.guardar');
 
     Route::resource('/usuarios', App\Http\Controllers\UsuarioController::class)->names('usuarios');
-});
+//});
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
