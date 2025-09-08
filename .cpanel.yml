@@ -3,6 +3,7 @@
 deployment:
   tasks:
     - export REPOSITORY="/home4/eduar109/repositories/git_app_ligaglobal_cl/app.ligaglobal.cl/"
+    - export DEPLOY_CONFIG="/home4/eduar109/repositories/git_app_ligaglobal_cl/documentos"
     - export DEPLOYPATH="/home4/eduar109/app.ligaglobal.cl/"
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/app $DEPLOYPATH
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/routes $DEPLOYPATH
@@ -10,5 +11,10 @@ deployment:
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/public $DEPLOYPATH
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/bootstrap $DEPLOYPATH
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/config $DEPLOYPATH
+    - for f in $DEPLOY_CONFIG/cpanel_*; do
+        cp "$f" "$DEPLOYPATH/$(basename "$f" | sed 's/cpanel_//')"
+      done
     - cd $DEPLOYPATH
+    - rm -rf node_modules
+    - npm ci
     - npm run build
