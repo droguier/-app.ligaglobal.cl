@@ -4,14 +4,10 @@ deployment:
   tasks:
     - export REPOSITORY="/home4/eduar109/repositories/git_app_ligaglobal_cl/app.ligaglobal.cl/"
     - export DEPLOY_CONFIG="/home4/eduar109/repositories/git_app_ligaglobal_cl/documentos"
-    - export DEPLOYPATH="/home4/eduar109/app.ligaglobal.cl/"
-    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/app $DEPLOYPATH
-    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/routes $DEPLOYPATH
-    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/resources $DEPLOYPATH
-    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/public $DEPLOYPATH
-    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/bootstrap $DEPLOYPATH
-    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/config $DEPLOYPATH
-    - cd $DEPLOYPATH
-    - rm -rf node_modules
-    - npm ci
-    - npm run build
+    - export DEPLOY_PATH="/home4/eduar109/app.ligaglobal.cl/"
+    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/app $DEPLOY_PATH
+    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/routes $DEPLOY_PATH
+    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/resources $DEPLOY_PATH
+    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/public $DEPLOY_PATH
+    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/bootstrap $DEPLOY_PATH
+    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/config $DEPLOY_PATH
