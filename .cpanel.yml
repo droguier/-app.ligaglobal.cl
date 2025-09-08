@@ -8,3 +8,7 @@ deployment:
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/routes $DEPLOYPATH
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/resources $DEPLOYPATH
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/public $DEPLOYPATH
+    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/bootstrap $DEPLOYPATH
+    - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/config $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - npm run build
