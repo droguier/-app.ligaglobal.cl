@@ -11,9 +11,6 @@ deployment:
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/public $DEPLOYPATH
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/bootstrap $DEPLOYPATH
     - rsync -av --exclude='.git' --exclude='.htaccess' $REPOSITORY/config $DEPLOYPATH
-    - for f in $DEPLOY_CONFIG/cpanel_*; do
-        cp "$f" "$DEPLOYPATH/$(basename "$f" | sed 's/cpanel_//')"
-      done
     - cd $DEPLOYPATH
     - rm -rf node_modules
     - npm ci
