@@ -1,0 +1,15 @@
+
+---
+deployment:
+  tasks:
+    - export REPOSITORY="/home4/eduar109/repositories/git_app_ligaglobal_cl/app.ligaglobal.cl/"
+    - export DEPLOYPATH="/home4/eduar109/app.ligaglobal.cl/"
+    - cd $REPOSITORY
+    - /bin/rsync -a --exclude 'index.php' --exclude '.env' --exclude '.env.example' --exclude '.htaccess' --exclude 'vendor/' --exclude 'node_modules/' . $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - composer install --no-interaction --prefer-dist --optimize-autoloader
+    - php artisan config:cache
+    - php artisan route:cache
+    - php artisan view:cache
+    
+
